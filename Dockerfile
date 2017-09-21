@@ -1,12 +1,16 @@
 FROM debian:latest
-MAINTAINER Alexis Pereda <alexis@pereda.fr>
 
-ENV STEAMCMD_URL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz"
+LABEL maintainer="Alexis Pereda <alexis@pereda.fr>"
+LABEL version="1.0"
+LABEL description="steamcmd"
+
+ENV STEAMCMD_URL "http://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz"
 
 RUN dpkg --add-architecture i386
-RUN apt update&&apt upgrade -y
-RUN apt install -y lib32gcc1 lib32stdc++6 libcurl4-gnutls-dev:i386 wget sudo
-RUN rm -rf /var/lib/apt/lists/*
+RUN apt update \
+	&& apt install --no-install-recommends --no-install-suggests -y \
+		lib32gcc1 lib32stdc++6 libcurl4-gnutls-dev:i386 wget sudo \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN useradd -ms /bin/bash steam
 USER steam
